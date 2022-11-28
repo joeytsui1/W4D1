@@ -24,16 +24,41 @@ class PolyTreeNode
     end
 
     def add_child(child)
-        
-      child.parent = self
-      self.children << child
-
+        child.parent = self
     end
 
     def remove_child(child_node)
+        if self.children.include?(child_node)
+            child_node.parent = nil
+        else
+            raise RuntimeError.new("node is not a child")
+        end
+    end
 
-      self.children.delete(child_node)
-      child_node.parent = nil
+    def dfs (target)
+        return self if self.value == target
+        return nil if self.children.empty?
 
+        self.children.each do |child|
+            el = child.dfs(target)
+            if !el.nil?
+                return el
+            end
+        end
+        return nil
+    end
+
+    def bfs (target)
+        arr = [self]
+
+        until arr.empty?
+            current = arr.shift
+            if current.value == target
+                return current
+            else
+                arr.concat(current.children)
+            end
+        end
+        return nil
     end
 end 
