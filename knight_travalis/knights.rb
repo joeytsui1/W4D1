@@ -33,7 +33,6 @@ class KnightPathFinder
       next if row + pos[0] < 0 || row + pos[0] > 7
       next if col + pos[1] < 0 || col + pos[1] > 7
         
-    
       if @@grid[pos[0]+ row][pos[1]+col] != nil
         possible_moves << [pos[0]+ row,pos[0]+ col]
       end
@@ -43,15 +42,17 @@ class KnightPathFinder
 
   end
   def new_move_positions
-
-    
-
+    possibilities = KnightPathFinder.valid_moves(@pos.value)
+    new_spot = possibilities.select {|pos| !@considered_pos.include?(pos)}
+    @considered_pos.concat(new_spot)
+    new_spot
   end
-
-  
-
 
 end
 
 
-p KnightPathFinder.valid_moves([4,3])
+# p KnightPathFinder.valid_moves([4,3])
+# k = KnightPathFinder.new([4,3])
+# p k.new_move_positions
+
+
